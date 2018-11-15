@@ -1,0 +1,46 @@
+{
+  "Config": {
+      "AddressWidth": 32,
+      "DataWidth": 4
+  },
+  "RegFile": {
+    "Name": "abc",
+    "StartAddress": "0x0",
+    "EndAddress": "0x100",
+    "Reg": {
+      "X": {
+        "Address": "0x0",
+        "Field": {
+          "EN": {
+            "Bit": "0",
+            "Value": "0",
+            "Type": "rw"
+          },
+          "STOP": {
+            "Bit": "8",
+            "Value": "1",
+            "Type": "ro"
+          }
+        }
+      },
+      "Y": {
+        "Size": 8,
+        "Address": "0x08",
+        "Field": {
+          "CNT": {
+            "Bit": "0",
+            "Value": "0",
+            "Type": "WC"
+          }
+        }
+      },
+      "Z": {
+        "Address": "0x10",
+        "Secure": "True",
+        "Field": {
+            
+        }
+      }
+    }
+  }
+}
