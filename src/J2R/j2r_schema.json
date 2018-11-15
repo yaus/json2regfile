@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/yaus/json2regfile/src/J2R/j2r_schema.json",
+    "title": "Json2Regfile",
+    "description": "Describe register file by json",
+    "type": "object",
+    "properties": {
+        "Config":
+        {
+            "description": "",
+            "type":"object",
+            "properties": {
+                "RegFileName":{
+
+                },
+                "AddressWidth":
+                {
+                    "type":"number"
+                },
+                "DataWidth":
+                {
+                    "type":"number"    
+                }
+            }
+        },
+        "RegFile":
+        {
+            "description": "",
+            "type":"object"
+        }
+    }
+  }
