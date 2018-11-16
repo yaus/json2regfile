@@ -1,11 +1,24 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/yaus/json2regfile/src/J2R/j2r_schema.json",
+  "$id": "https://raw.githubusercontent.com/yaus/json2regfile/master/src/J2R/j2r_schema.json",
   "title": "Json2Regfile",
   "description": "Describe register file by json",
   "type": "object",
+  "definitions": {
+    "valid_int": {
+      "$id": "#valid_int",
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(\\d+)|(0x[0-9A-Fa-f]+)$"
+        },
+        { "type": "integer" }
+      ]
+    }
+  },
+
   "properties": {
-    "$schema":{},
+    "$schema": {},
     "Config": {
       "description": "",
       "type": "object",
@@ -24,22 +37,24 @@
           "type": "number",
           "minimum": 1
         },
-        "BusType":{
+        "BusType": {
           "description": "Read Write Bus Type",
-          "type":"string"
+          "type": "string"
         },
-        "Pipeline":{
+        "Pipeline": {
           "description": "",
-          "type":"boolean"
+          "type": "boolean"
         }
       },
-      "required": ["RegFileName","AddressWidth","DataWidth"]
+      "required": ["RegFileName", "AddressWidth", "DataWidth"]
     },
     "RegFile": {
       "description": "Declare Register File",
       "type": "object",
       "properties": {
-        "StartAddress": {
+        "StartAddress": { "$ref": "#/definitions/valid_int" },
+        "EndAddress": { "$ref": "#/definitions/valid_int" },
+        "SpaceSize": {
           "anyOf": [
             {
               "type": "string",
@@ -47,24 +62,6 @@
             },
             { "type": "integer" }
           ]
-        },
-        "EndAddress": {
-          "anyOf": [
-            {
-              "type": "string",
-              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
-            },
-            { "type": "integer" }
-          ]
-        },
-        "SpaceSize":{
-          "anyOf": [
-            {
-              "type": "string",
-              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
-            },
-            { "type": "integer" }
-          ]        
         },
         "Reg": {
           "description": "Declare Registers",
@@ -114,10 +111,9 @@
                             { "type": "integer" }
                           ]
                         },
-                        "Type":
-                        {
-                          "type":"string",
-                          "enum": ["ro","rw","wc"]
+                        "Type": {
+                          "type": "string",
+                          "enum": ["ro", "rw", "wc"]
                         }
                       }
                     }
@@ -130,15 +126,15 @@
           "additionalProperties": false
         }
       },
-      "anyOf": [{        
-        "required": ["StartAddress","EndAddress"]
-      },
-      {
-        "required": ["StartAddress","SpaceSize"]
-      }
-
+      "anyOf": [
+        {
+          "required": ["StartAddress", "EndAddress"]
+        },
+        {
+          "required": ["StartAddress", "SpaceSize"]
+        }
       ]
-    }       
+    }
   },
-  "required": ["Config","RegFile"]
+  "required": ["Config", "RegFile"]
 }
