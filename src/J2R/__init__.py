@@ -25,8 +25,10 @@ class J2R(object):
             json_obj=json.load(f,object_hook=lambda d: namedtuple('X', d.keys(),rename=True)(*d.values()))
             rf.name = json_obj.Config.RegFileName
             rf.addressWidth = json_obj.Config.AddressWidth
-            rf.dataWidth = json_obj.Config.dataWidth
-            
+            rf.dataWidth = json_obj.Config.DataWidth
+            rf.pipeline = getattr(json_obj.Config,"Pipeline",False)
+            rf.busType = getattr(json_obj.Config,"BusType","")
+
             pass
 
 import os
