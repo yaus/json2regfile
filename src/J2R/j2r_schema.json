@@ -1,32 +1,114 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://github.com/yaus/json2regfile/src/J2R/j2r_schema.json",
-    "title": "Json2Regfile",
-    "description": "Describe register file by json",
-    "type": "object",
-    "properties": {
-        "Config":
-        {
-            "description": "",
-            "type":"object",
-            "properties": {
-                "RegFileName":{
-
-                },
-                "AddressWidth":
-                {
-                    "type":"number"
-                },
-                "DataWidth":
-                {
-                    "type":"number"    
-                }
-            }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/yaus/json2regfile/src/J2R/j2r_schema.json",
+  "title": "Json2Regfile",
+  "description": "Describe register file by json",
+  "type": "object",
+  "properties": {
+    "Config": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "RegFileName": {
+          "description": "Register File Name",
+          "type": "string"
         },
-        "RegFile":
-        {
-            "description": "",
-            "type":"object"
+        "AddressWidth": {
+          "description": "Number of bit of address",
+          "type": "number"
+        },
+        "DataWidth": {
+          "description": "Number of bits of databus",
+          "type": "number"
         }
+      }
+    },
+    "RegFile": {
+      "description": "Declare Register File",
+      "type": "object",
+      "properties": {
+        "StartAddress": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
+            },
+            { "type": "integer" }
+          ]
+        },
+        "EndAddress": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
+            },
+            { "type": "integer" }
+          ]
+        },
+        "Reg": {
+          "description": "Declare Registers",
+          "type": "object",
+          "patternProperties": {
+            "^[A-Za-z_][A-Za-z0-9_]*$": {
+              "description": "Register Name",
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+              "type": "object",
+              "properties": {
+                "Size": {
+                  "description": "Number of byte",
+                  "type": "integer"
+                },
+                "Address": {
+                  "description": "Register address",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
+                    },
+                    { "type": "integer" }
+                  ]
+                },
+                "Field": {
+                  "patternProperties": {
+                    "^[A-Za-z_][A-Za-z0-9_]*$": {
+                      "description": "Field Name",
+                      "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+                      "type": "object",
+                      "properties": {
+                        "BitPosition": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^\\d+(:\\d+)?$"
+                            },
+                            { "type": "integer" }
+                          ]
+                        },
+                        "DefaultValue": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
+                            },
+                            { "type": "integer" }
+                          ]
+                        },
+                        "Type":
+                        {
+                          "type":"string",
+                          "enum": ["ro","rw","wc"]
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
     }
   }
+}

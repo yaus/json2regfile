@@ -1,10 +1,11 @@
-{
+{  
+  "$schema": "../src/J2R/j2r_schema.json",
   "Config": {
+      "RegFileName":"CPU_REGFILE",
       "AddressWidth": 32,
       "DataWidth": 4
   },
   "RegFile": {
-    "Name": "abc",
     "StartAddress": "0x0",
     "EndAddress": "0x100",
     "Reg": {
@@ -12,25 +13,25 @@
         "Address": "0x0",
         "Field": {
           "EN": {
-            "Bit": "0",
-            "Value": "0",
+            "BitPosition": "0",
+            "DefaultValue": "0",
             "Type": "rw"
           },
           "STOP": {
-            "Bit": "8",
-            "Value": "1",
+            "BitPosition": "8",
+            "DefaultValue": "1",
             "Type": "ro"
           }
         }
       },
       "Y": {
         "Size": 8,
-        "Address": "0x08",
+        "Address": 21321,
         "Field": {
           "CNT": {
-            "Bit": "0",
-            "Value": "0",
-            "Type": "WC"
+            "BitPosition":"1:0",
+            "DefaultValue": "0",
+            "Type": "wc"
           }
         }
       },
