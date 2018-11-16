@@ -2,5 +2,5 @@
 Using JSON to generate register file's RTL
 
 This python package used in this source code
-*Jinja2
-*jsonschema
+* Jinja2
+* jsonschema
