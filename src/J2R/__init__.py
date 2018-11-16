@@ -24,7 +24,8 @@ class J2R(object):
                 del json_obj["$schema"]
             json_obj=json.load(f,object_hook=lambda d: namedtuple('X', d.keys(),rename=True)(*d.values()))
             rf.name = json_obj.Config.RegFileName
-            rf.address_width = json_obj.Config.AddressWidth
+            rf.addressWidth = json_obj.Config.AddressWidth
+            rf.dataWidth = json_obj.Config.dataWidth
             
             pass
 
