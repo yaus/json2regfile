@@ -5,6 +5,7 @@
   "description": "Describe register file by json",
   "type": "object",
   "properties": {
+    "$schema":{},
     "Config": {
       "description": "",
       "type": "object",
@@ -14,14 +15,25 @@
           "type": "string"
         },
         "AddressWidth": {
-          "description": "Number of bit of address",
-          "type": "number"
+          "description": "Bitwidth of address",
+          "type": "number",
+          "minimum": 1
         },
         "DataWidth": {
-          "description": "Number of bits of databus",
-          "type": "number"
+          "description": "Bitwidth of databus",
+          "type": "number",
+          "minimum": 1
+        },
+        "BusType":{
+          "description": "Read Write Bus Type",
+          "type":"string"
+        },
+        "Pipeline":{
+          "description": "",
+          "type":"boolean"
         }
-      }
+      },
+      "required": ["RegFileName","AddressWidth","DataWidth"]
     },
     "RegFile": {
       "description": "Declare Register File",
@@ -44,6 +56,15 @@
             },
             { "type": "integer" }
           ]
+        },
+        "SpaceSize":{
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
+            },
+            { "type": "integer" }
+          ]        
         },
         "Reg": {
           "description": "Declare Registers",
@@ -108,7 +129,16 @@
           },
           "additionalProperties": false
         }
+      },
+      "anyOf": [{        
+        "required": ["StartAddress","EndAddress"]
+      },
+      {
+        "required": ["StartAddress","SpaceSize"]
       }
-    }
-  }
+
+      ]
+    }       
+  },
+  "required": ["Config","RegFile"]
 }
