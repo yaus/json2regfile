@@ -10,9 +10,25 @@
       "oneOf": [
         {
           "type": "string",
-          "pattern": "^(\\d+)|(0x[0-9A-Fa-f]+)$"
+          "pattern": "^((\\d+)|(0x[0-9A-Fa-f]+)|(\\d*'(s?)h(\\+|-)?[0-9A-Za-z]([0-9A-Za-z_]*[0-9A-Za-z_])?)|(\\d*'(s?)d(\\+|-)?\\d((\\d|_)*\\d)?)|(\\d*'(s?)b(\\+|-)?[01]([01_]*[01])?))$"
         },
         { "type": "integer" }
+      ]
+    },
+    "valid_pos_int": {
+      "$id": "#valid_pos_int",
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^((\\+?0*[1-9]\\d*)|(0x0*[1-9A-Fa-f][0-9A-Fa-f]*)|(\\d*'(s)?h\\+?((0*)|(0+_))?[1-9A-Fa-f]([_0-9A-Fa-f]*[0-9A-Fa-f])?)|(\\d*'(s)?d\\+(0*|(0+_))[1-9]([0-9_]*[0-9])?)|(\\d*'(s)?b\\+?(0*|(0+_))1([_01]*[01])?))$"
+        },
+        { "type": "integer", "minimum": 1 }
+      ]
+    },
+    "range": {
+      "oneOf": [
+        { "type": "string", "pattern": "^\\d+(:\\d+)?$" },
+        { "type": "number", "minimum": 0 }
       ]
     }
   },
@@ -54,15 +70,7 @@
       "properties": {
         "StartAddress": { "$ref": "#/definitions/valid_int" },
         "EndAddress": { "$ref": "#/definitions/valid_int" },
-        "SpaceSize": {
-          "anyOf": [
-            {
-              "type": "string",
-              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
-            },
-            { "type": "integer" }
-          ]
-        },
+        "SpaceSize": { "$ref": "#/definitions/valid_int" },
         "Reg": {
           "description": "Declare Registers",
           "type": "object",
@@ -78,13 +86,13 @@
                 },
                 "Address": {
                   "description": "Register address",
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
-                    },
-                    { "type": "integer" }
-                  ]
+                  "$ref": "#/definitions/valid_int"
+                },
+                "Copy": {
+                  "$ref": "#/definitions/valid_pos_int"
+                },
+                "SliceSize": {
+                  "$ref": "#/definitions/valid_pos_int"
                 },
                 "Field": {
                   "patternProperties": {
@@ -94,26 +102,20 @@
                       "type": "object",
                       "properties": {
                         "BitPosition": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "pattern": "^\\d+(:\\d+)?$"
-                            },
-                            { "type": "integer" }
-                          ]
+                          "$ref": "#/definitions/range"
                         },
-                        "DefaultValue": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "pattern": "^(\\d+)|(0x[0-9A-Za-z]+)$"
-                            },
-                            { "type": "integer" }
-                          ]
+                        "Copy": {
+                          "type": "integer",
+                          "minimum": 1
                         },
+                        "DefaultValue": { "$ref": "#/definitions/valid_int" },
                         "Type": {
                           "type": "string",
                           "enum": ["ro", "rw", "wc"]
+                        },
+                        "Coverage": {
+                          "type": "string",
+                          "enum": ["+", "-", "a", "b", "f"]
                         }
                       }
                     }

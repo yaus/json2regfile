@@ -8,12 +8,13 @@
     "Pipeline": true
   },
   "RegFile": {
-    "StartAddress": "0x0",
+    "StartAddress": "0x00",
     "EndAddress": "0xFF",
     "SpaceSize": "0x100",
     "Reg": {
       "X": {
         "Address": "0x0",
+        "Copy": "1",
         "Field": {
           "EN": {
             "BitPosition": "0",

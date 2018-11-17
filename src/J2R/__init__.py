@@ -1,4 +1,5 @@
 import json
+import re
 from collections import namedtuple
 from jsonschema import validate
 
@@ -12,6 +13,12 @@ class J2R(object):
         pass
 
 
+    @staticmethod
+    def ReadInteger(string):
+        if isinstance(string,int):
+            return string
+        m_Int = ReadInteger.reInt.match()
+        pass
     
     @staticmethod
     def LoadJson(path):
@@ -28,8 +35,14 @@ class J2R(object):
             rf.dataWidth = json_obj.Config.DataWidth
             rf.pipeline = getattr(json_obj.Config,"Pipeline",False)
             rf.busType = getattr(json_obj.Config,"BusType","")
-
+            rf.startAddress = J2R.ReadInteger(json_obj.RegFile.StartAddress)
+            
+            rf.endAddress = 
             pass
 
 import os
 J2R.J2R_schema=json.load(open(os.path.dirname(__file__)+"/j2r_schema.json"))
+J2R.ReadInteger.reInt = re.compile(r'(\+|-)?\d+')
+J2R.ReadInteger.reVHex = re.compile(r'(?P<WIDTH>\d?)\'(?P<IS_SIGN>s?)h(?P<SIGN>(\+|-)?)(?P<DIGIT>[0-9A-Za_z_]+)')
+J2R.ReadInteger.reVBin = re.compile(r'(?P<WIDTH>\d?)\'(?P<IS_SIGN>s?)b(?P<SIGN>(\+|-)?)(?P<DIGIT>[01_]+)')
+J2R.ReadInteger.reVDec = re.compile(r'(?P<WIDTH>\d?)\'(?P<IS_SIGN>s?)d(?P<SIGN>(\+|-)?)(?P<DIGIT>[0-9_]+)')
